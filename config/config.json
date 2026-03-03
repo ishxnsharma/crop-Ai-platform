@@ -1,0 +1,105 @@
+{
+    "application": {
+        "name": "AI-Powered Crop Yield Prediction Platform",
+        "version": "1.0.0",
+        "organization": "Government of Odisha",
+        "department": "Electronics & IT Department"
+    },
+    "api": {
+        "host": "0.0.0.0",
+        "port": 5000,
+        "debug": true,
+        "cors_enabled": true
+    },
+    "model": {
+        "default_algorithm": "random_forest",
+        "n_estimators": 100,
+        "test_size": 0.2,
+        "random_state": 42,
+        "features": [
+            "rainfall",
+            "temperature",
+            "humidity",
+            "soil_ph",
+            "nitrogen",
+            "phosphorus",
+            "potassium",
+            "crop_type_code",
+            "season_code",
+            "area_hectares"
+        ]
+    },
+    "crops": {
+        "types": [
+            {"id": 0, "name": "Rice", "local_name": "ଧାନ"},
+            {"id": 1, "name": "Wheat", "local_name": "ଗହମ"},
+            {"id": 2, "name": "Maize", "local_name": "ମକା"},
+            {"id": 3, "name": "Cotton", "local_name": "କପା"},
+            {"id": 4, "name": "Sugarcane", "local_name": "ଆଖୁ"},
+            {"id": 5, "name": "Pulses", "local_name": "ଡାଲି"},
+            {"id": 6, "name": "Oilseeds", "local_name": "ତେଲବୀଜ"},
+            {"id": 7, "name": "Vegetables", "local_name": "ପନିପରିବା"}
+        ],
+        "seasons": [
+            {"id": 0, "name": "Kharif", "months": "June-October"},
+            {"id": 1, "name": "Rabi", "months": "October-March"},
+            {"id": 2, "name": "Summer", "months": "March-June"}
+        ]
+    },
+    "recommendations": {
+        "thresholds": {
+            "rainfall_low": 500,
+            "rainfall_optimal": 800,
+            "soil_ph_min": 6.0,
+            "soil_ph_max": 7.5,
+            "nitrogen_low": 40,
+            "phosphorus_low": 30,
+            "potassium_low": 30,
+            "temperature_high": 35,
+            "yield_low": 30
+        },
+        "target_increase": 0.15
+    },
+    "regions": {
+        "odisha_districts": [
+            "Angul",
+            "Balangir",
+            "Balasore",
+            "Bargarh",
+            "Bhadrak",
+            "Bhubaneswar",
+            "Boudh",
+            "Cuttack",
+            "Deogarh",
+            "Dhenkanal",
+            "Gajapati",
+            "Ganjam",
+            "Jagatsinghpur",
+            "Jajpur",
+            "Jharsuguda",
+            "Kalahandi",
+            "Kandhamal",
+            "Kendrapara",
+            "Kendujhar",
+            "Khordha",
+            "Koraput",
+            "Malkangiri",
+            "Mayurbhanj",
+            "Nabarangpur",
+            "Nayagarh",
+            "Nuapada",
+            "Puri",
+            "Rayagada",
+            "Sambalpur",
+            "Sonepur",
+            "Sundargarh"
+        ]
+    },
+    "support": {
+        "helpline": "1800-XXX-XXXX",
+        "whatsapp": "+91-XXXXXXXXXX",
+        "email": "support@cropyield.odisha.gov.in",
+        "languages": ["English", "ଓଡ଼ିଆ", "हिंदी"],
+        "office_hours": "Monday-Saturday, 9:00 AM - 6:00 PM IST"
+    }
+}

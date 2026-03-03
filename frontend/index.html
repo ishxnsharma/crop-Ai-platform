@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Crop Yield Prediction Platform - Odisha</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌾 AI-Powered Crop Yield Prediction Platform</h1>
+            <p class="subtitle">Empowering Farmers in Odisha with Data-Driven Insights</p>
+        </header>
+
+        <main>
+            <!-- Input Form Section -->
+            <section class="input-section">
+                <h2>Enter Your Farm Data</h2>
+                <form id="predictionForm">
+                    <div class="form-grid">
+                        <!-- Location and Crop Info -->
+                        <div class="form-group">
+                            <label for="location">Location (District)</label>
+                            <input type="text" id="location" name="location" value="Bhubaneswar" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="crop_type">Crop Type</label>
+                            <select id="crop_type" name="crop_type" required>
+                                <option value="Rice">Rice (ଧାନ)</option>
+                                <option value="Wheat">Wheat (ଗହମ)</option>
+                                <option value="Maize">Maize (ମକା)</option>
+                                <option value="Cotton">Cotton (କପା)</option>
+                                <option value="Sugarcane">Sugarcane (ଆଖୁ)</option>
+                                <option value="Pulses">Pulses (ଡାଲି)</option>
+                                <option value="Vegetables">Vegetables (ପନିପରିବା)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="season">Season</label>
+                            <select id="season" name="season" required>
+                                <option value="Kharif">Kharif (Monsoon)</option>
+                                <option value="Rabi">Rabi (Winter)</option>
+                                <option value="Summer">Summer</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="area_hectares">Farm Area (Hectares)</label>
+                            <input type="number" id="area_hectares" name="area_hectares" value="1" min="0.1" step="0.1" required>
+                        </div>
+
+                        <!-- Weather Conditions -->
+                        <div class="form-group">
+                            <label for="rainfall">Expected Rainfall (mm)</label>
+                            <input type="number" id="rainfall" name="rainfall" value="800" min="0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="temperature">Average Temperature (°C)</label>
+                            <input type="number" id="temperature" name="temperature" value="28" min="0" max="50" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="humidity">Humidity (%)</label>
+                            <input type="number" id="humidity" name="humidity" value="65" min="0" max="100" required>
+                        </div>
+
+                        <!-- Soil Conditions -->
+                        <div class="form-group">
+                            <label for="soil_ph">Soil pH</label>
+                            <input type="number" id="soil_ph" name="soil_ph" value="6.5" min="0" max="14" step="0.1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="nitrogen">Nitrogen (kg/ha)</label>
+                            <input type="number" id="nitrogen" name="nitrogen" value="50" min="0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phosphorus">Phosphorus (kg/ha)</label>
+                            <input type="number" id="phosphorus" name="phosphorus" value="40" min="0" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="potassium">Potassium (kg/ha)</label>
+                            <input type="number" id="potassium" name="potassium" value="40" min="0" required>
+                        </div>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">🔮 Predict Yield</button>
+                        <button type="button" class="btn btn-secondary" onclick="loadSampleData()">📊 Load Sample Data</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Results Section -->
+            <section id="resultsSection" class="results-section" style="display: none;">
+                <h2>Prediction Results</h2>
+                
+                <!-- Yield Prediction -->
+                <div class="result-card">
+                    <h3>📈 Predicted Crop Yield</h3>
+                    <div class="yield-display">
+                        <span id="yieldValue" class="yield-value">--</span>
+                        <span class="yield-unit">quintal/hectare</span>
+                    </div>
+                    <p id="yieldMessage" class="yield-message"></p>
+                </div>
+
+                <!-- Recommendations -->
+                <div class="recommendations-card">
+                    <h3>💡 Recommendations for Optimization</h3>
+                    <div id="recommendationsList" class="recommendations-list">
+                        <!-- Recommendations will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Action Plan -->
+                <div class="action-plan">
+                    <h3>📋 Action Plan for 10%+ Yield Increase</h3>
+                    <div id="actionPlan" class="timeline">
+                        <!-- Action plan will be inserted here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Information Cards -->
+            <section class="info-section">
+                <div class="info-card">
+                    <h3>🌱 How It Works</h3>
+                    <ol>
+                        <li>Enter your farm's location and crop details</li>
+                        <li>Provide weather and soil condition data</li>
+                        <li>Get AI-powered yield predictions</li>
+                        <li>Follow personalized recommendations</li>
+                        <li>Achieve 10%+ yield increase!</li>
+                    </ol>
+                </div>
+                
+                <div class="info-card">
+                    <h3>📞 Support</h3>
+                    <p><strong>Helpline:</strong> 1800-XXX-XXXX</p>
+                    <p><strong>WhatsApp:</strong> +91-XXXXXXXXXX</p>
+                    <p><strong>Languages:</strong> English, ଓଡ଼ିଆ, हिंदी</p>
+                    <p><strong>Office Hours:</strong> Mon-Sat, 9 AM - 6 PM</p>
+                </div>
+                
+                <div class="info-card">
+                    <h3>🎯 Benefits</h3>
+                    <ul>
+                        <li>Increase yield by 10-15%</li>
+                        <li>Reduce input costs</li>
+                        <li>Optimize water usage</li>
+                        <li>Improve soil health</li>
+                        <li>Get market insights</li>
+                    </ul>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Developed for Government of Odisha | Electronics & IT Department</p>
+            <p>© 2024 Crop Yield AI Platform - Empowering Farmers with Technology</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

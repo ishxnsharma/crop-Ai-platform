@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Yield Predictor - AI-Powered Farming Assistant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .form-section {
+            padding: 40px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        
+        .unit-info {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .predict-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .predict-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .predict-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .results {
+            margin-top: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .yield-result {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .yield-number {
+            font-size: 3em;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .yield-unit {
+            font-size: 1.2em;
+            color: #666;
+        }
+        
+        .recommendations {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        .recommendations h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .recommendations ul {
+            list-style: none;
+        }
+        
+        .recommendations li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .recommendations li:last-child {
+            border-bottom: none;
+        }
+        
+        .recommendations li:before {
+            content: "💡 ";
+            margin-right: 8px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 20px;
+            display: none;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .form-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌾 Crop Yield Predictor</h1>
+            <p>AI-Powered Farming Assistant for Better Harvests</p>
+        </div>
+        
+        <div class="form-section">
+            <form id="predictionForm">
+                <div class="form-grid">
+                    <div>
+                        <div class="form-group">
+                            <label for="temperature">Average Temperature</label>
+                            <input type="number" id="temperature" name="temperature" value="25" step="0.1" required>
+                            <div class="unit-info">Degrees Celsius (°C)</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="rainfall">Monthly Rainfall</label>
+                            <input type="number" id="rainfall" name="rainfall" value="150" step="0.1" required>
+                            <div class="unit-info">Millimeters (mm)</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="humidity">Humidity</label>
+                            <input type="number" id="humidity" name="humidity" value="70" step="0.1" min="0" max="100" required>
+                            <div class="unit-info">Percentage (%)</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="ph_level">Soil pH Level</label>
+                            <input type="number" id="ph_level" name="ph_level" value="6.5" step="0.1" min="0" max="14" required>
+                            <div class="unit-info">pH scale (0-14)</div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="form-group">
+                            <label for="nitrogen">Nitrogen Content</label>
+                            <input type="number" id="nitrogen" name="nitrogen" value="40" step="0.1" required>
+                            <div class="unit-info">Parts per million (ppm)</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phosphorus">Phosphorus Content</label>
+                            <input type="number" id="phosphorus" name="phosphorus" value="20" step="0.1" required>
+                            <div class="unit-info">Parts per million (ppm)</div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="potassium">Potassium Content</label>
+                            <input type="number" id="potassium" name="potassium" value="30" step="0.1" required>
+                            <div class="unit-info">Parts per million (ppm)</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="predict-btn" id="predictBtn">
+                    🔮 Predict Crop Yield
+                </button>
+            </form>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Analyzing your data...</p>
+            </div>
+            
+            <div class="error" id="error"></div>
+            
+            <div class="results" id="results">
+                <div class="yield-result">
+                    <div class="yield-number" id="yieldNumber">0</div>
+                    <div class="yield-unit">tons per hectare</div>
+                </div>
+                
+                <div class="recommendations">
+                    <h3>🌱 Farming Recommendations</h3>
+                    <ul id="recommendationsList"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const formData = new FormData(form);
+            const data = {};
+            
+            // Convert form data to object
+            for (let [key, value] of formData.entries()) {
+                data[key] = parseFloat(value);
+            }
+            
+            // Show loading state
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('results').style.display = 'none';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('predictBtn').disabled = true;
+            
+            try {
+                const response = await fetch('/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Show results
+                    document.getElementById('yieldNumber').textContent = result.predicted_yield;
+                    
+                    const recommendationsList = document.getElementById('recommendationsList');
+                    recommendationsList.innerHTML = '';
+                    
+                    result.recommendations.forEach(recommendation => {
+                        const li = document.createElement('li');
+                        li.textContent = recommendation;
+                        recommendationsList.appendChild(li);
+                    });
+                    
+                    document.getElementById('results').style.display = 'block';
+                } else {
+                    throw new Error(result.error || 'An error occurred');
+                }
+            } catch (error) {
+                document.getElementById('error').textContent = 'Error: ' + error.message;
+                document.getElementById('error').style.display = 'block';
+            } finally {
+                // Hide loading state
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('predictBtn').disabled = false;
+            }
+        });
+        
+        // Add some interactivity to inputs
+        const inputs = document.querySelectorAll('input[type="number"]');
+        inputs.forEach(input => {
+            input.addEventListener('change', function() {
+                if (document.getElementById('results').style.display === 'block') {
+                    // If results are showing, hide them when user changes input
+                    document.getElementById('results').style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Prediction {
+  id              Int      @id @default(autoincrement())
+  cropType        String
+  region          String
+  temperature     Float
+  rainfall        Float
+  humidity        Float
+  soilPh          Float    @map("soil_ph")
+  nitrogen        Float
+  phosphorus      Float
+  potassium       Float
+  predictedYield  Float    @map("predicted_yield")
+  confidence      Float
+  recommendations String[]
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  @@map("predictions")
+}
