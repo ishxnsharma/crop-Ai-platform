@@ -34,7 +34,7 @@ const Dashboard = ({ language = 'en' }) => {
   useEffect(() => {
     const fetchHistory = async () => {
       try {
-        const response = await axios.get('/api/history');
+        const response = await axios.get('https://crop-ai-platform.onrender.com/api/history');
         // Sort history chronologically for the chart
         const sortedData = response.data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
         setHistory(sortedData);

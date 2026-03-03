@@ -18,7 +18,7 @@ function App() {
     setLoading(true);
     try {
       const payload = { ...formData, language };
-      const response = await axios.post('http://localhost:5000/api/predict', payload);
+      const response = await axios.post('https://crop-ai-platform.onrender.com/api/predict', payload);
       setPredictionResult(response.data);
       setActiveTab('results');
     } catch (error) {

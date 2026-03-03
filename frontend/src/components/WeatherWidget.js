@@ -17,7 +17,7 @@ const WeatherWidget = ({ city = 'Bhubaneswar', language = 'en' }) => {
 
   const fetchEnvironmentalData = async (cityName) => {
     try {
-      const weatherRes = await axios.get(`/api/weather?city=${cityName}`);
+      const weatherRes = await axios.get(`https://crop-ai-platform.onrender.com/api/weather?city=${cityName}`);
       setWeatherData(weatherRes.data);
     } catch (error) {
       console.error('Error fetching environmental data:', error);
