@@ -2,40 +2,42 @@ name: Smart Auto Commit Bot
 
 on:
   schedule:
-    # Runs multiple times daily at random-looking intervals
     - cron: "15 3 * * *"
     - cron: "42 7 * * *"
     - cron: "10 12 * * *"
     - cron: "55 18 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   commit:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: Generate random changes
         run: |
           FILE="activity_log.txt"
-          echo "Update: $(date) - $RANDOM" >> $FILE
+          echo "Update: $(date) - $RANDOM" >> "$FILE"
 
       - name: Random commit chance
         id: decision
         run: |
           RAND=$((RANDOM % 100))
-          echo "rand=$RAND" >> $GITHUB_OUTPUT
+          echo "rand=$RAND" >> "$GITHUB_OUTPUT"
 
-      - name: Commit (only sometimes)
-        if: steps.decision.outputs.rand < 70
+      - name: Commit changes
+        if: ${{ fromJSON(steps.decision.outputs.rand) < 70 }}
         run: |
-          git config --global user.name "Ishan Bot"
-          git config --global user.email "bot@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add .
-          git commit -m "update: $(date)" || echo "No changes"
+          git commit -m "update: $(date)" || echo "No changes to commit"
 
-      - name: Push
-        if: steps.decision.outputs.rand < 70
+      - name: Push changes
+        if: ${{ fromJSON(steps.decision.outputs.rand) < 70 }}
         run: git push
